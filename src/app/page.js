@@ -35,6 +35,9 @@ export default function Home() {
 
       if (message && message === "User has been logged in successfully") {
         toast.success(message);
+        if (response.data.access_token) {
+          sessionStorage.setItem("token", response.data.access_token)
+        }
         router.push('/about');
       } else {
         toast.error(message)
