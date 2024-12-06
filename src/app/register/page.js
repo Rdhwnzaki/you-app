@@ -132,7 +132,7 @@ export default function Register() {
                 <div className="text-center mt-10">
                     <span className="text-white me-2">Have an account?</span>
                     <span
-                        className="underline text-yellow-200 underline-offset-2 cursor-pointer"
+                        className="bg-gradient-to-r from-yellow-100  to-yellow-200 bg-clip-text text-transparent cursor-pointer"
                         onClick={() => router.push("/")}
                     >
                         Login here

@@ -4,8 +4,10 @@ import BackButton from "../components/BackButton";
 import axios from "axios";
 import { PencilSquareIcon } from "@heroicons/react/20/solid";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 function About() {
+    const router = useRouter()
     const [profile, setProfile] = useState(null);
     const [isEditAbout, setIsEditAbout] = useState(false);
     const [form, setForm] = useState({
@@ -28,6 +30,7 @@ function About() {
                 headers: { "x-access-token": token },
             });
             setProfile(response.data.data);
+            sessionStorage.setItem("profile", JSON.stringify(response.data.data))
         } catch (error) {
             console.error("Error fetching profile:", error);
             toast.error(error.response?.data?.message || "Failed to fetch profile");
@@ -131,7 +134,7 @@ function About() {
                                     />
                                 ) : (
                                     <span
-                                        className="cursor-pointer text-sm text-yellow-200"
+                                        className="cursor-pointer text-sm bg-gradient-to-r from-yellow-100  to-yellow-200 bg-clip-text text-transparent"
                                         onClick={handleSave}
                                     >
                                         Save & Update
@@ -163,7 +166,7 @@ function About() {
                                 </div>
                             </div>
                         ) : !isEditAbout ? (
-                            <p>Add in your your to help others know you better</p>
+                            <p className="text-gray-500">Add in your your to help others know you better</p>
                         ) : (
                             <div>
                                 <div className="flex items-center justify-between mt-4">
@@ -231,6 +234,34 @@ function About() {
                                 </div>
                             </div>
                         )}
+                    </div>
+                </div>
+                <div className="card bg-[#0e191f] w-96 shadow-xl mt-6">
+                    <div className="card-body">
+                        <div className="flex justify-between">
+                            <span className="text-white font-semibold text-lg mb-3">Interest</span>
+                            <span>
+                                <PencilSquareIcon
+                                    className="h-6 w-6 text-white cursor-pointer"
+                                    onClick={() => router.push("/interest")}
+                                />
+                            </span>
+                        </div>
+                        <div className="grid grid-cols-3 gap-2 mt-4">
+
+                            {profile && profile.interests.length > 0 ? (
+                                profile.interests.map((interest, index) => (
+                                    <span
+                                        key={index}
+                                        className="px-2 py-2 rounded-full text-md bg-[#1c272c] text-white text-center font-medium "
+                                    >
+                                        {interest}
+                                    </span>
+                                ))
+                            ) : (
+                                <p className="text-gray-500">Add in your interest to find a better match</p>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
